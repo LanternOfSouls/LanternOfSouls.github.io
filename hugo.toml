@@ -1,0 +1,17 @@
+baseURL = 'https://lanternofsouls.github.io/'
+languageCode = 'en-us'
+title = 'Lantern of Souls'
+theme = 'hugo-book'
+
+# Required for rendering raw HTML/shortcodes like KaTeX and Mermaid
+[markup.goldmark.renderer]
+  unsafe = true
+
+# Hugo Book parameter options
+[params]
+  # Set to "docs" so the theme builds the left navigation from content/docs/
+  BookSection = 'docs'
+  # Theme mode: "light", "dark", or "auto"
+  BookTheme = 'auto'
+  # Enable search bar in sidebar
+  BookSearch = true
