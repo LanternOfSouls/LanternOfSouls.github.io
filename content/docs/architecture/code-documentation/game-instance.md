@@ -2,6 +2,7 @@
 title: "Game Instance"
 type: docs
 weight: 3
+url: "/docs/architecture/game-instance/"
 ---
 
 ## **Game Instance (GI_Lantern)**

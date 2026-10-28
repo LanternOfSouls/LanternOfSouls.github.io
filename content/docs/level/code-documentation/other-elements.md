@@ -2,6 +2,7 @@
 title: "Other Elements"
 type: docs
 weight: 6
+url: "/docs/level/other-elements/"
 ---
 
 ## Light Ping

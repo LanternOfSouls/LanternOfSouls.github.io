@@ -2,6 +2,7 @@
 title: "Interactables"
 type: docs
 weight: 3
+url: "/docs/level/interactables/"
 ---
 
 ## **<u>Interactables</u>**

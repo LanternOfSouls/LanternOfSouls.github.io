@@ -2,6 +2,7 @@
 title: "UI & HUD Reference"
 type: docs
 weight: 1
+url: "/docs/ui-hud/reference/"
 ---
 
 ## Design Statement

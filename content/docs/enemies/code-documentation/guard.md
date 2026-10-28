@@ -2,6 +2,7 @@
 title: "Guard"
 type: docs
 weight: 1
+url: "/docs/enemies/guard/"
 ---
 
 ## GuardBase.h

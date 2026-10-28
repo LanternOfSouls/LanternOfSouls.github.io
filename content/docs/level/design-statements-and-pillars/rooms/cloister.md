@@ -2,6 +2,7 @@
 title: "Cloister"
 type: docs
 weight: 2
+url: "/docs/level/rooms/cloister/"
 ---
 
 ## **Cloister Sub-level**
