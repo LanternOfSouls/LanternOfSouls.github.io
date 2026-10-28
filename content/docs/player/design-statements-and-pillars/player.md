@@ -2,6 +2,7 @@
 title: "Player"
 type: docs
 weight: 1
+url: "/docs/player/player/"
 ---
 
 ## Player Design Statement

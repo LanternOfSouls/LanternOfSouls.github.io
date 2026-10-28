@@ -2,6 +2,7 @@
 title: "Core Design Philosophy"
 type: docs
 weight: 1
+url: "/docs/level/core-design-philosophy/"
 ---
 
 ## **Level Design Statement**

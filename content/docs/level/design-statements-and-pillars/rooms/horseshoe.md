@@ -2,6 +2,7 @@
 title: "Horseshoe"
 type: docs
 weight: 3
+url: "/docs/level/rooms/horseshoe/"
 ---
 
 ## **Horseshoe Sub-level**

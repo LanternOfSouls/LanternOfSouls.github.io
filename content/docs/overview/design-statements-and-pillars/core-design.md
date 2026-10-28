@@ -2,6 +2,7 @@
 title: "Core Design"
 type: docs
 weight: 1
+url: "/docs/overview/core-design/"
 ---
 
 ## Core Design Statement

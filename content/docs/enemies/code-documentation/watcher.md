@@ -2,6 +2,7 @@
 title: "Watcher"
 type: docs
 weight: 2
+url: "/docs/enemies/watcher/"
 ---
 
 ## WatcherBase and WatcherControllerBase (C++):

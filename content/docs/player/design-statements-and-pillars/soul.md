@@ -2,6 +2,7 @@
 title: "Soul"
 type: docs
 weight: 2
+url: "/docs/player/soul/"
 ---
 
 ## Soul Abilities

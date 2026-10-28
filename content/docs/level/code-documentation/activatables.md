@@ -2,6 +2,7 @@
 title: "Activatables"
 type: docs
 weight: 4
+url: "/docs/level/activatables/"
 ---
 
 ## **<u>Activatables</u>**

@@ -2,6 +2,7 @@
 title: "Switch"
 type: docs
 weight: 4
+url: "/docs/level/rooms/switch/"
 ---
 
 ## **Switch Sub-level**

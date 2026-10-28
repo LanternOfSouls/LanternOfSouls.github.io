@@ -2,6 +2,7 @@
 title: "Cutscenes"
 type: docs
 weight: 5
+url: "/docs/level/cutscenes/"
 ---
 
 ## **<u>Cutscenes</u>**

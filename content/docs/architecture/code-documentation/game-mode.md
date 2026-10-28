@@ -2,6 +2,7 @@
 title: "Game Mode"
 type: docs
 weight: 1
+url: "/docs/architecture/game-mode/"
 ---
 
 ## **Game Mode (GM_Lantern)**

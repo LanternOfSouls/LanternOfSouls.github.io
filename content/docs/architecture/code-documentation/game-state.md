@@ -2,6 +2,7 @@
 title: "Game State"
 type: docs
 weight: 2
+url: "/docs/architecture/game-state/"
 ---
 
 ## Documentation Status

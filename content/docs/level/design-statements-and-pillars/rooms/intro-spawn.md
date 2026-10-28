@@ -2,6 +2,7 @@
 title: "Intro / Spawn"
 type: docs
 weight: 1
+url: "/docs/level/rooms/intro-spawn/"
 ---
 
 ## **Intro/Spawn Sub-level**
