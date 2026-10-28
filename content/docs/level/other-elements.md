@@ -37,5 +37,3 @@ When SpawnPing is called within the BP_LightProjectile, it sets the visibility o
 If activated is True, in event tic, it will continuously decrease the Aurora opacity for the material. It will also continuously increase the world scale of the object.
 
 It will stop activated once the actor is destroyed in spawn ping after the 10 second delay.
-
-##

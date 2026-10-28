@@ -12,7 +12,6 @@ weight: 4
 
 **Design Statement:** Activatables are actors within the game which perform a specific action when triggered by their OnActivate event. Activations are typically triggered by player actions, often involving Interactables.
 
-## 
 
 ## **BP_Door_Braziers**
 

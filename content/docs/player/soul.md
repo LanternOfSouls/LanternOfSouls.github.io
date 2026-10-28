@@ -200,11 +200,8 @@ As of now, it starts invisibility. If the light level is greater than 0 it will 
 
 After the delay in TurnInvisibleTimed, it will activate <u>end invisibility</u>, which will turn the texture back to the original texture. <span class="mark">(want to go back and revise, inefficient)</span>
 
-## 
 
-## 
 
-## 
 
 ## **Sprinting:**
 
