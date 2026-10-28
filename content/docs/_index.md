@@ -6,5 +6,6 @@ weight: 1
 
 # Welcome to Lantern of Souls
 
-I am going to touch you
-This documentation site is built using Hugo and the Hugo Book theme.
+This documentation site contains the design and implementation reference for the Lantern of Souls capstone game.
+
+[Read the Game Design Document](game-design/)
