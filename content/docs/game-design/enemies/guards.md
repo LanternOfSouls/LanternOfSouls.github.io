@@ -10,23 +10,24 @@ The GuardBase’s purpose is to exist as a physical object in the world and hold
 
 Variables
 
-*// unused, intended to be for a guard that holds still*
+```cpp
+// unused, intended to be for a guard that holds still
 
 bool bStationary = false;
 
-*// deprecated from when we had the guards following a spline. Still in use in BP_Guard, which is not being used anywhere. There is a Watcher variable with the same name.*
+// deprecated from when we had the guards following a spline. Still in use in BP_Guard, which is not being used anywhere. There is a Watcher variable with the same name.
 
-TArray\<FGuardWaypoint\> PatrolWaypoints;
+TArray<FGuardWaypoint> PatrolWaypoints;
 
-*// deprecated, only in unused BP_Guard*
+// deprecated, only in unused BP_Guard
 
 int NextPatrolWaypointIndex = 0;
 
-*// deprecated, only in unused BP_Guard*
+// deprecated, only in unused BP_Guard
 
-void OnOverlapWaypoint(const AWaypointBase\* Waypoint);
+void OnOverlapWaypoint(const AWaypointBase* Waypoint);
 
-*// these are the colors the point lights are set to depending on the guard’s state. They are still used in BP_Guard_01, but their values are overridden.*
+// these are the colors the point lights are set to depending on the guard’s state. They are still used in BP_Guard_01, but their values are overridden.
 
 FLinearColor NeutralColor = FLinearColor(0.371f, 0.0f, 1.0f, 1.0f);
 
@@ -34,7 +35,7 @@ FLinearColor InvestigationColor = FLinearColor(1.0f, 1.0f, 0.0f, 1.0f);
 
 FLinearColor AttackColor = FLinearColor(1.0f, 0.0f, 0.0f, 1.0f);
 
-*// Movement speeds*
+// Movement speeds
 
 float PatrolSpeed = 150.0f;
 
@@ -42,7 +43,7 @@ float InvestigateSpeed = 250.0f;
 
 float ChaseSpeed = 500.0f;
 
-*// Getters, not used*
+// Getters, not used
 
 float GetPatrolSpeed() const;
 
@@ -50,7 +51,7 @@ float GetInvestigateSpeed() const;
 
 float GetChaseSpeed() const;
 
-*// Setters, not used*
+// Setters, not used
 
 void SetPatrolSpeed(float NewSpeed);
 
@@ -58,27 +59,30 @@ void SetInvestigateSpeed(float NewSpeed);
 
 void SetChaseSpeed(float NewSpeed);
 
-*// sets light colors*
+// sets light colors
 
 void SetLightColors(FLinearColor LightColor);
+```
 
 ## GuardBase.cpp
 
+```cpp
 void AGuardBase::BeginPlay()
 
 {
 
 Super::BeginPlay();
 
-if (PatrolWaypoints.Num() \> NextPatrolWaypointIndex)
+if (PatrolWaypoints.Num() > NextPatrolWaypointIndex)
 
 {
 
-this-\>SetActorLocation(PatrolWaypoints\[NextPatrolWaypointIndex\].Waypoint-\>GetActorLocation());
+this->SetActorLocation(PatrolWaypoints[NextPatrolWaypointIndex].Waypoint->GetActorLocation());
 
 }
 
 }
+```
 
 This set actor location call is a leftover from following splines and can be removed.
 
@@ -92,7 +96,8 @@ Most of the code in this class deals with the perception component. This class�
 
 First, let’s go over the header file. There are a few delegates, properties, and methods to be aware of:
 
-*// delegates declared before class declaration; these can be used to trigger in other classes when the GuardController calls them.*
+```cpp
+// delegates declared before class declaration; these can be used to trigger in other classes when the GuardController calls them.
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGuardYellow, FGuardYellowInfo, GuardYellowInfo);
 
@@ -100,89 +105,89 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGuardRed, FGuardYellowInfo, Guard
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGuardGreen, FGuardYellowInfo, GuardGreenInfo);
 
-*// State Tree asset to run. This will be run on BeginPlay, overriding the existing StateTree.*
+// State Tree asset to run. This will be run on BeginPlay, overriding the existing StateTree.
 
-TObjectPtr\<UStateTree\> StateTree;
+TObjectPtr<UStateTree> StateTree;
 
-*// Deprecated. Only used in old BP_Guard*
+// Deprecated. Only used in old BP_Guard
 
 FGameplayTag ArrivedAtWaypointTag;
 
-*// Array of DetectableLights. Keeps track of all DetectableLight objects inside of the vision cone, even those in the green zone.*
+// Array of DetectableLights. Keeps track of all DetectableLight objects inside of the vision cone, even those in the green zone.
 
-TArray\<TScriptInterface\<IDetectableLight\>\> LightsInRange;
+TArray<TScriptInterface<IDetectableLight>> LightsInRange;
 
-*// Deprecated. Not used anywhere.*
+// Deprecated. Not used anywhere.
 
-TEnumAsByte\<EDetectionState\> DeprecatedCurrentDetectionState;
+TEnumAsByte<EDetectionState> DeprecatedCurrentDetectionState;
 
-*// Detection Strengths from the previous frame for each DetectableLight. FDetectionStrengthPair is a pair of floats: one for Yellow and one for Red, since Yellow and Red use different equations to determine strength. Both floats are normalized to values between 0 and 1.*
+// Detection Strengths from the previous frame for each DetectableLight. FDetectionStrengthPair is a pair of floats: one for Yellow and one for Red, since Yellow and Red use different equations to determine strength. Both floats are normalized to values between 0 and 1.
 
-TMap\<UObject\*, FDetectionStrengthPair\> OldDetectionStrengths;
+TMap<UObject*, FDetectionStrengthPair> OldDetectionStrengths;
 
-*// Detection States from the previous frame for each DetectableLight. Used to determine when the detection state changes; if this is different from the current frame’s Detection State, the object has just crossed into a new zone.*
+// Detection States from the previous frame for each DetectableLight. Used to determine when the detection state changes; if this is different from the current frame’s Detection State, the object has just crossed into a new zone.
 
-TMap\<UObject\*, TEnumAsByte\<EDetectionState\>\> OldDetectionStates;
+TMap<UObject*, TEnumAsByte<EDetectionState>> OldDetectionStates;
 
-*// Sight Config used for AIPerceptionComponent. This makes it so the sight sense is enabled and configured by default in Blueprints. It’s assigned default values in the constructor.*
+// Sight Config used for AIPerceptionComponent. This makes it so the sight sense is enabled and configured by default in Blueprints. It’s assigned default values in the constructor.
 
-TObjectPtr\<UAISenseConfig_Sight\> SightConfig;
+TObjectPtr<UAISenseConfig_Sight> SightConfig;
 
-*// Same as Sight Config*
+// Same as Sight Config
 
-TObjectPtr\<UAISenseConfig_Hearing\> HearingConfig;
+TObjectPtr<UAISenseConfig_Hearing> HearingConfig;
 
-*// If enabled, displays debug information about the detection strengths and states.*
+// If enabled, displays debug information about the detection strengths and states.
 
 bool bDebugDetection = false;
 
-*// Reference to the object the guard is prioritizing. Determined by detection strength.*
+// Reference to the object the guard is prioritizing. Determined by detection strength.
 
-TScriptInterface\<IDetectableLight\> PriorityLight;
+TScriptInterface<IDetectableLight> PriorityLight;
 
-*//functions*
+//functions
 
-*// Deprecated. Only used in old BP_Guard_AIC and BP_Guard.*
+// Deprecated. Only used in old BP_Guard_AIC and BP_Guard.
 
 void OnReachedWaypoint(FGuardWaypoint NextWaypoint);
 
-*// Event bound to PerceptionComponent delegate. Called every time the PerceptionComponent sees or loses any stimulus.*
+// Event bound to PerceptionComponent delegate. Called every time the PerceptionComponent sees or loses any stimulus.
 
-void OnTargetPerceptionUpdated(AActor\* Actor, FAIStimulus Stimulus);
+void OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
 
-*// Called when the Guard first sees a DetectableLight. Starts a timer that calls GetLightInfo() every 0.2 seconds, avoiding a Tick() call.*
+// Called when the Guard first sees a DetectableLight. Starts a timer that calls GetLightInfo() every 0.2 seconds, avoiding a Tick() call.
 
-void StartTrackingDetectionState(IDetectableLight\* Light);
+void StartTrackingDetectionState(IDetectableLight* Light);
 
-*// This handles all of the state changes; for example, it sends a delegate that the player has crossed into the yellow zone.*
+// This handles all of the state changes; for example, it sends a delegate that the player has crossed into the yellow zone.
 
-void HandleDetectionStateChanges(const TScriptInterface\<IDetectableLight\>& Light, EDetectionState NewState, EDetectionState OldState, FVector Location);
+void HandleDetectionStateChanges(const TScriptInterface<IDetectableLight>& Light, EDetectionState NewState, EDetectionState OldState, FVector Location);
 
-*// Prints a debug statement containing the strength and the detected object*
+// Prints a debug statement containing the strength and the detected object
 
-void DebugDetectionState(TScriptInterface\<IDetectableLight\> Light, float NewDetectionStrength, EDetectionState NewDetectionState);
+void DebugDetectionState(TScriptInterface<IDetectableLight> Light, float NewDetectionStrength, EDetectionState NewDetectionState);
 
-*// Called on Yellow-\>Green. Blueprint Implementable.*
+// Called on Yellow->Green. Blueprint Implementable.
 
 void OnPlayerLost(FVector StimulusLocation);
 
-*// Called on Green-\>Yellow. Blueprint Implementable.*
+// Called on Green->Yellow. Blueprint Implementable.
 
-void OnLightDetected(const TScriptInterface\<IDetectableLight\>& DetectedObject);
+void OnLightDetected(const TScriptInterface<IDetectableLight>& DetectedObject);
 
-*// Called on Yellow-\>Red. Blueprint Implementable.*
+// Called on Yellow->Red. Blueprint Implementable.
 
-void OnLightAggro(const TScriptInterface\<IDetectableLight\>& DetectedObject);
+void OnLightAggro(const TScriptInterface<IDetectableLight>& DetectedObject);
 
-*// Not currently in use. Blueprint Implementable.*
+// Not currently in use. Blueprint Implementable.
 
-void OnHeardStimulus(AActor\* Actor);
+void OnHeardStimulus(AActor* Actor);
 
-*// Given all DetectableLights, calculates the strengths and states of each, then determines which one to follow and calls HandleDetectionStateChanges to send events based on where the objects have moved. Called every 0.2 seconds.*
+// Given all DetectableLights, calculates the strengths and states of each, then determines which one to follow and calls HandleDetectionStateChanges to send events based on where the objects have moved. Called every 0.2 seconds.
 
 void GetLightInfo();
 
-*// begin delegates. These are declarations of the delegates at the beginning.*
+// begin delegates. These are declarations of the delegates at the beginning.
 
 FOnGuardYellow OnGuardYellow;
 
@@ -190,7 +195,8 @@ FOnGuardYellow OnGuardRed;
 
 FOnGuardYellow OnGuardGreen;
 
-*// end delegates*
+// end delegates
+```
 
 ## GuardControllerBase.cpp
 
@@ -202,43 +208,47 @@ The constructor has a few things to set up.
 
 1.  First, it creates the Perception component. This makes the component show up in the Blueprint class:
 
-Perception = CreateDefaultSubobject\<UGuardPerceptionComponent\>(
+```cpp
+Perception = CreateDefaultSubobject<UGuardPerceptionComponent>(
 
 TEXT("EnemyPerception")
 
 );
+```
 
 > **Source image:** image35.png *(media file pending upload: `image35.png`)*
 
 2.  Next, it configures the Sight and Hearing Senses, making them show up in the Blueprint class. Any class that derives from GuardControllerBase will have these defaults.
 
-*// set up Sight sense*
+```cpp
+// set up Sight sense
 
-Perception-\>SetSenseEnabled(UAISense_Sight::StaticClass(), true);
+Perception->SetSenseEnabled(UAISense_Sight::StaticClass(), true);
 
-SightConfig = CreateDefaultSubobject\<UAISenseConfig_Sight\>(TEXT("SightConfig"));
+SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("SightConfig"));
 
-SightConfig-\>SightRadius = 3000;
+SightConfig->SightRadius = 3000;
 
-SightConfig-\>LoseSightRadius = 3500;
+SightConfig->LoseSightRadius = 3500;
 
-SightConfig-\>PeripheralVisionAngleDegrees = 90.0;
+SightConfig->PeripheralVisionAngleDegrees = 90.0;
 
-SightConfig-\>DetectionByAffiliation = FAISenseAffiliationFilter(true, true, true);
+SightConfig->DetectionByAffiliation = FAISenseAffiliationFilter(true, true, true);
 
-Perception-\>ConfigureSense(\*SightConfig);
+Perception->ConfigureSense(*SightConfig);
 
-*// set up Hearing sense*
+// set up Hearing sense
 
-Perception-\>SetSenseEnabled(UAISense_Hearing::StaticClass(), true);
+Perception->SetSenseEnabled(UAISense_Hearing::StaticClass(), true);
 
-HearingConfig = CreateDefaultSubobject\<UAISenseConfig_Hearing\>(TEXT("HearingConfig"));
+HearingConfig = CreateDefaultSubobject<UAISenseConfig_Hearing>(TEXT("HearingConfig"));
 
-HearingConfig-\>HearingRange = 4000;
+HearingConfig->HearingRange = 4000;
 
-HearingConfig-\>DetectionByAffiliation = FAISenseAffiliationFilter(true, true, true);
+HearingConfig->DetectionByAffiliation = FAISenseAffiliationFilter(true, true, true);
 
-Perception-\>ConfigureSense(\*HearingConfig);
+Perception->ConfigureSense(*HearingConfig);
+```
 
 > **Source image:** image204.png *(media file pending upload: `image204.png`)*
 
@@ -246,17 +256,21 @@ Perception-\>ConfigureSense(\*HearingConfig);
 
 4.  It disables the StateTree automatically starting, since we want to change the StateTree at runtime.
 
-*// disable state tree starting automatically; we will do this ourselves at BeginPlay*
+```cpp
+// disable state tree starting automatically; we will do this ourselves at BeginPlay
 
-StateTreeAI-\>SetStartLogicAutomatically(false);
+StateTreeAI->SetStartLogicAutomatically(false);
+```
 
 ### Perception Component Integration
 
 The GuardControllerBase has an AIPerceptionComponent (this is the vision cone). I won’t go into detail on the PerceptionComponent’s inner workings, just the Controller’s job in relation to it. In the constructor, it registers its own function to the PerceptionComponent’s delegate so it can react when the perception detects a stimulus.
 
-*// add delegate for perception updates*
+```cpp
+// add delegate for perception updates
 
-Perception-\>OnTargetPerceptionUpdated.AddDynamic(this, &AGuardControllerBase::OnTargetPerceptionUpdated);
+Perception->OnTargetPerceptionUpdated.AddDynamic(this, &AGuardControllerBase::OnTargetPerceptionUpdated);
+```
 
 Now we’ll set up a situation: The player crosses into the guard’s vision cone, stays for a couple seconds, then breaks line of sight.
 
@@ -276,71 +290,84 @@ Now we’ll set up a situation: The player crosses into the guard’s vision con
 
     1.  Asks the Player through the DetectableLight interface, which uses the GetDetectability function, for their location, light strength, and whether they’re in a crevice.
 
-auto \[Location, LightStrength, bHiding\] = IDetectableLight::Execute_GetDetectability(Light.GetObject());
+```cpp
+auto [Location, LightStrength, bHiding] = IDetectableLight::Execute_GetDetectability(Light.GetObject());
+```
 
 2.  Asks the Perception component to calculate the detection score (DetectionStrength, a number between 0 and 1). It checks to see if the player is hiding in a crevice, setting the strength to 0 if they are.
 
-*// Player should not be detected if they're hiding in a crevice.*
+```cpp
+// Player should not be detected if they're hiding in a crevice.
 
 if (!bHiding) {
 
-NewDetectionStrength = GuardPerception-\>GetDetectionStrength(GetPawn()-\>GetActorLocation(), Location, SightConfig-\>LoseSightRadius, LightStrength);
+NewDetectionStrength = GuardPerception->GetDetectionStrength(GetPawn()->GetActorLocation(), Location, SightConfig->LoseSightRadius, LightStrength);
 
 } else {
 
 NewDetectionStrength = {0, 0};
 
 }
+```
 
 3.  Uses the DetectionStrength to calculate the DetectionState (Red, Yellow, Green)
 
-*// calculate the new green/yellow/red state based on the strength*
+```cpp
+// calculate the new green/yellow/red state based on the strength
 
-EDetectionState NewDetectionState = GuardPerception-\>GetDetectionState(NewDetectionStrength.YellowStrength, NewDetectionStrength.RedStrength);
+EDetectionState NewDetectionState = GuardPerception->GetDetectionState(NewDetectionStrength.YellowStrength, NewDetectionStrength.RedStrength);
+```
 
 4.  Let’s review. At this point, we’ve confirmed that the Player is not hiding in a crevice and we’ve labeled them Red, Yellow, or Green based on their position and light level.
 
 5.  The next step is to get the detection strength and state from the previous “frame” (but remember, these aren’t actual frames since it’s running every 0.2 seconds). These are stored in OldDetectionStrengths and OldDetectionStates. (In this case, they are EMPTY, because the player is just barely getting registered with the perception system. Most of the time, it will be actual numbers from the last frame.) We do some fun C++ pointer shenanigans to get the Strength:
 
-FDetectionStrengthPair\* OldDetectionStrengthPtr = OldDetectionStrengths.Find(Light.GetObject());
+```cpp
+FDetectionStrengthPair* OldDetectionStrengthPtr = OldDetectionStrengths.Find(Light.GetObject());
 
 FDetectionStrengthPair OldDetectionStrength;
 
-if (OldDetectionStrengthPtr == nullptr) { *// the light is entering vision radius and doesn't have an entry in OldDetectionStrengths yet*
+if (OldDetectionStrengthPtr == nullptr) { // the light is entering vision radius and doesn't have an entry in OldDetectionStrengths yet
 
 OldDetectionStrength = {FLT_EPSILON, FLT_EPSILON};
 
 } else {
 
-OldDetectionStrength = \*OldDetectionStrengthPtr;
+OldDetectionStrength = *OldDetectionStrengthPtr;
 
 }
+```
 
 6.  Then we do the exact same process to get the State (Red, Yellow, Green):
 
-TEnumAsByte\<EDetectionState\>\* OldDetectionStatePtr = OldDetectionStates.Find(Light.GetObject());
+```cpp
+TEnumAsByte<EDetectionState>* OldDetectionStatePtr = OldDetectionStates.Find(Light.GetObject());
 
 EDetectionState OldDetectionState;
 
-if (OldDetectionStatePtr == nullptr) { *// the light is entering vision radius and doesn't have an entry in OldDetectionStates yet*
+if (OldDetectionStatePtr == nullptr) { // the light is entering vision radius and doesn't have an entry in OldDetectionStates yet
 
 OldDetectionState = Green;
 
 } else {
 
-OldDetectionState = \*OldDetectionStatePtr;
+OldDetectionState = *OldDetectionStatePtr;
 
 }
+```
 
 7.  Before doing anything else, we must update the OldDetectionStrengths and States so that we have our *current* values in the next “frame”.
 
+```cpp
 OldDetectionStrengths.Add(Light.GetObject()) = NewDetectionStrength;
 
 OldDetectionStates.Add(Light.GetObject()) = NewDetectionState;
+```
 
 8.  Now we check the strength against our running maximum - remember, this is looping through *all* of the objects in the vision cone to find the “brightest” one.
 
-if (OldDetectionStrength.YellowStrength \> HighestDetectionStrength)
+```cpp
+if (OldDetectionStrength.YellowStrength > HighestDetectionStrength)
 
 {
 
@@ -355,12 +382,15 @@ HighestLight = Light;
 PriorityLight = Light;
 
 }
+```
 
 9.  We let the for loop run to completion. This is what we’ve been building to: **now we have a reference to the “brightest” object in the Guard’s vision cone**, along with its previous and current detection strengths and states.
 
 10. With this information, we call HandleDetectionStateChanges, which is the piece of the C++ class that connects to the Blueprint event graph.
 
+```cpp
 HandleDetectionStateChanges(HighestLight, HighestNewDetectionState, HighestOldDetectionState, HighestLocation);
+```
 
 11. HandleDetectionStateChanges is pretty simple, but it’s better explained by a diagram. It uses the Old and New detection states to decide which Blueprint function it will call: OnLightDetected, OnPlayerLost, or OnLightAggro.
 
@@ -370,17 +400,23 @@ HandleDetectionStateChanges(HighestLight, HighestNewDetectionState, HighestOldDe
 
     1.  We remove the stimulus from LightsInRange; this stops us from tracking it.
 
+```cpp
 LightsInRange.Remove(Light);
+```
 
 2.  We remove the stimulus’s values from OldDetectionStates and OldDetectionStrengths
 
+```cpp
 OldDetectionStates.Remove(Actor);
 
 OldDetectionStrengths.Remove(Actor);
+```
 
 3.  We call OnPlayerLost, which happens in Blueprints. This handles the case where the player walks straight from the yellow zone out of the vision cone, without passing through the green zone first (like behind a wall while in the yellow zone). FIX: this should also check to ensure the player is not in the green zone.
 
+```cpp
 OnPlayerLost(Stimulus.StimulusLocation);
+```
 
 This wraps up the Controller’s interaction with the Perception component. To summarize: **The Controller’s purpose is to keep track of the objects in the vision cone, firing off events in Blueprints when the “brightest” object crosses between red, yellow, and green zones.**
 
@@ -602,7 +638,9 @@ Event Randomly Check Player Crevice
 
 ## BP Reference audit - Controller
 
+```cpp
 ABP_GuardTestAnims:
+```
 
 > **Source image:** image321.png *(media file pending upload: `image321.png`)*
 
@@ -642,7 +680,9 @@ fix: declare GoToNewStimulus in C++ parent
 
 ## BP Reference audit - Pawn
 
+```cpp
 AIC_GuardController02, BP_GuardController01_AIC:
+```
 
 > **Source image:** image80.png *(media file pending upload: `image80.png`)*
 
@@ -1107,25 +1147,23 @@ The C++ parent is mostly empty. Let’s take a look at the variables we do have.
 
 The Waypoints array is mostly unused. It is assigned values in L_Hallway01, which we are not using anymore. In the current level (L_Courtyard_V3), it is left empty. Its intention was to store a list of waypoints so the Guards wouldn’t have to, but in the code, it gets the Guard’s waypoints directly.
 
-TArray\<FGuardWaypoint\> Waypoints;
+```cpp
+TArray<FGuardWaypoint> Waypoints;
+```
 
 This FGuardWaypoint struct, however, is used frequently throughout the Guard and Controller. The weight is not referenced anywhere, but we may want to use it eventually.
 
+```cpp
 USTRUCT(BlueprintType)
-
 struct FGuardWaypoint
-
 {
-
-GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-
-TObjectPtr\<AWaypointBase\> Waypoint;
-
-float Weight = 1.0f;
-
+    TObjectPtr<AWaypointBase> Waypoint;
+    float Weight = 1.0f;
 };
+```
 
 Here are the variables we’re working with:
 
@@ -1299,66 +1337,73 @@ Now that we have a conceptual understanding of the vision zones, let’s look at
 
 Here’s the header file. We’ve already gone over most of the variables:
 
-*// How sensitive the enemy is to the player's distance*
+```cpp
+// How sensitive the enemy is to the player's distance
 
 float YellowDistanceWeight = 1;
 
-*// How sensitive the enemy is to the player's angle (peripheral vision or straight on)*
+// How sensitive the enemy is to the player's angle (peripheral vision or straight on)
 
 float YellowAngleWeight = 1;
 
-*// How sensitive the enemy is to light levels*
+// How sensitive the enemy is to light levels
 
 float YellowLightWeight = 1;
 
-*// How sensitive the enemy is to the player's distance*
+// How sensitive the enemy is to the player's distance
 
 float RedDistanceWeight = 1;
 
-*// How sensitive the enemy is to the player's angle (peripheral vision or straight on)*
+// How sensitive the enemy is to the player's angle (peripheral vision or straight on)
 
 float RedAngleWeight = 1;
 
-*// How sensitive the enemy is to light levels*
+// How sensitive the enemy is to light levels
 
 float RedLightWeight = 1;
 
-*// The threshold at which the enemy becomes curious (0-1)*
+// The threshold at which the enemy becomes curious (0-1)
 
 float CuriousThreshold = 0.33;
 
-*// The threshold at which the enemy becomes aggro (0-1)*
+// The threshold at which the enemy becomes aggro (0-1)
 
 float AggroThreshold = 0.66;
 
-*// Minimum distance to ensure the enemy aggros. Unused.*
+// Minimum distance to ensure the enemy aggros. Unused.
 
 float MinimumAggroDistance = 100;
 
-*// height of the floating debug bar chart*
+// height of the floating debug bar chart
 
 float DebugVerticalOffset = 300;
+```
 
 Then the following public functions, which we saw in the GuardController (plus a function for debugging):
 
-UFUNCTION(BlueprintCallable, Category="Enemy\|Perception")
+```cpp
+UFUNCTION(BlueprintCallable, Category="Enemy|Perception")
 
 FDetectionStrengthPair GetDetectionStrength(FVector SelfLocation, FVector StimulusLocation, float LoseSightRadius, float LightAmount);
 
-UFUNCTION(BlueprintCallable, Category="Enemy\|Perception")
+UFUNCTION(BlueprintCallable, Category="Enemy|Perception")
 
 EDetectionState GetDetectionState(float YellowDecision, float RedDecision);
 
-void DebugDetectionStrength(FVector MyLocation, float Angle, float Distance, float LightAmount, const FString\* Identifier) const;
+void DebugDetectionStrength(FVector MyLocation, float Angle, float Distance, float LightAmount, const FString* Identifier) const;
+```
 
 And finally a private function, used only by this class:
 
+```cpp
 void NormalizeDetectionWeights();
+```
 
 Let’s see how they’re built in the CPP file. We’ll start with NormalizeDetectionWeights(). Its purpose is to turn all of the Weight values into a number between 0 and 1. For example, values 1, 2, 1 become 0.25, 0.5, 0.25, which all add
 
 up to 1.
 
+```cpp
 void UGuardPerceptionComponent::NormalizeDetectionWeights()
 
 {
@@ -1380,50 +1425,66 @@ RedAngleWeight /= RedTotal;
 RedLightWeight /= RedTotal;
 
 }
+```
 
 We normalize our weights at BeginPlay.
 
 When the Controller asks us for a Strength, we calculate the detection strength. Parameters for this function are our own location, the stimulus location, our sight range, and the brightness of the object, which we use to determine how strongly we’re sensing the object.
 
+```cpp
 FDetectionStrengthPair UGuardPerceptionComponent::GetDetectionStrength(FVector SelfLocation, FVector StimulusLocation, float LoseSightRadius, float LightAmount) {}
+```
 
 This involves 3 different calculations, since we’re dealing with distance, angle, and light amount.
 
 Light Amount is the easiest, since we get the value through a parameter. Remember, the Controller asked the Player for this value back in GetLightInfo(). We “normalize” this value by multiplying it by the weight.
 
-float YellowLightAmountNormalized = LightAmount\*YellowLightWeight;
+```cpp
+float YellowLightAmountNormalized = LightAmount*YellowLightWeight;
+```
 
 Distance is the next easiest. This will be a value between 0 and 1, with 0 at the edge of the vision radius, and 1 right on top of the guard.
 
+```cpp
 float DistanceNormalized = 1-UKismetMathLibrary::Vector_Distance2D(StimulusLocation, SelfLocation)/(LoseSightRadius);
+```
 
 We normalize the distance value in the same way, by multiplying it by its weight.
 
-float YellowDistanceNormalized = DistanceNormalized \* YellowDistanceWeight;
+```cpp
+float YellowDistanceNormalized = DistanceNormalized * YellowDistanceWeight;
+```
 
 Last, we have Angle. This one is a little more complicated and involves some linear algebra. We end up with a value between 0 and 1, where 0 = to the side and 1 = right in front of the enemy.
 
+```cpp
 FVector Direction = (StimulusLocation - SelfLocation).GetSafeNormal2D();
 
-float AngleNormalized = Direction.Dot(this-\>GetOwner()-\>GetActorForwardVector());
+float AngleNormalized = Direction.Dot(this->GetOwner()->GetActorForwardVector());
+```
 
 We normalize this just like the other two.
 
-float YellowAngleNormalized = AngleNormalized\*YellowAngleWeight;
+```cpp
+float YellowAngleNormalized = AngleNormalized*YellowAngleWeight;
+```
 
 Now we have three variables indicating how “strongly” the guard sees the player. They’ve been adjusted with weights depending on which one the designer wants to prioritize. We add all three together to get YellowDecision, a value between 0 and 1. **This is what we compare to the CuriousThreshold (yellow) to decide if it’s “in” or “out” of the yellow zone.**
 
+```cpp
 float YellowDecision = YellowAngleNormalized + YellowDistanceNormalized + YellowLightAmountNormalized;
+```
 
 The RedDecision is calculated exactly the same way, using the Red variables instead of the Yellow ones.
 
 At some point, the Controller will ask us (the PerceptionComponent) to convert this RedDecision and YellowDecision into Red, Yellow, or Green. We calculate this by comparing the Decision variables with the Aggro (red) and Curious (yellow) thresholds:
 
+```cpp
 EDetectionState UGuardPerceptionComponent::GetDetectionState(float YellowDecision, float RedDecision)
 
 {
 
-if (RedDecision \> AggroThreshold)
+if (RedDecision > AggroThreshold)
 
 {
 
@@ -1431,7 +1492,7 @@ return Red;
 
 }
 
-if (YellowDecision \> CuriousThreshold)
+if (YellowDecision > CuriousThreshold)
 
 {
 
@@ -1442,6 +1503,7 @@ return Yellow;
 return Green;
 
 }
+```
 
 I’d recommend going back to review the Controller now, with more understanding of how the PerceptionComponent works.
 
