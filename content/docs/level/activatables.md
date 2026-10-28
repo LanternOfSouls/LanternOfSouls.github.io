@@ -1,7 +1,7 @@
 ---
 title: "Activatables"
 type: docs
-weight: 5
+weight: 4
 ---
 
 ## **<u>Activatables</u>**
@@ -12,7 +12,6 @@ weight: 5
 
 **Design Statement:** Activatables are actors within the game which perform a specific action when triggered by their OnActivate event. Activations are typically triggered by player actions, often involving Interactables.
 
-## 
 
 ## **BP_Door_Braziers**
 
@@ -334,5 +333,3 @@ Please see Brazier Door Cutscene
 **Arm Lerp Timelines/Events:** A bunch of nonsense that simulates an animation using the guardarm component, used for the QTE. Do not touch this unless you are replacing it with an actual animation in which case please touch this.
 
 > **Source image:** image13.png *(media file pending upload: `image13.png`)*
-
-## **<u>Waypoints</u>**
