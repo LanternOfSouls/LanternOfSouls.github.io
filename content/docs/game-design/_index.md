@@ -195,7 +195,6 @@ What the ability is, what player want is it answering, how does it answer that w
 
 > **Source image:** image242.gif *(media file pending upload: `image242.gif`)*
 
-
 **Last Updated:** (10/6/2026)
 
 ### **Design**
@@ -284,7 +283,9 @@ When Create Projection Spline is called it first makes sure BP_Light_Projectile 
 
 **BP_Player (Throw Distraction):**
 
-> **Source image:** image358.png *(media file pending upload: `image358.png`)*When the player releases the aim distraction button, clear the projection spline using Clear Projection Spline. And if there is a distraction in the player's hand, indicated by Distraction In Hand then the function calls Throw Light Projectile and sets Distraction In Hand to false. After which it casts to GI_Lantern and calls the Distraction Set function to reduce the Light Percent from the UI and affects the actual Light Percent from the player. Then checks if there is enough light percent for the next throw. If there is not you can no longer use the distraction.
+> **Source image:** image358.png *(media file pending upload: `image358.png`)*
+
+When the player releases the aim distraction button, clear the projection spline using Clear Projection Spline. And if there is a distraction in the player's hand, indicated by Distraction In Hand then the function calls Throw Light Projectile and sets Distraction In Hand to false. After which it casts to GI_Lantern and calls the Distraction Set function to reduce the Light Percent from the UI and affects the actual Light Percent from the player. Then checks if there is enough light percent for the next throw. If there is not you can no longer use the distraction.
 
 **<u>NOTE:</u>** There should be less magic numbers, the light cost should be a variable (I think there is a cost for the distraction cost) also it shouldn't be if light percent is more than 0.0 it should be if the light cost is higher than the light percent or it shouldn't exist at all.
 
@@ -364,7 +365,9 @@ After it gets all the actors of Guard Base it runs a for each loop. For each gua
 
 ### **Code Overview**
 
-Starting inside of the Bp Player Controller, when you press the space bar, it activates the logic for invisibility. In GI_Lantern it gets the variable “Infinite Light Mode” which is a dev tool that can be activated by the 9 key. If infinite light is on, it will simply get the player and toggle invisibility. > **Source image:** image330.png *(media file pending upload: `image330.png`)*
+Starting inside of the Bp Player Controller, when you press the space bar, it activates the logic for invisibility. In GI_Lantern it gets the variable “Infinite Light Mode” which is a dev tool that can be activated by the 9 key. If infinite light is on, it will simply get the player and toggle invisibility. 
+
+> **Source image:** image330.png *(media file pending upload: `image330.png`)*
 
 However if not, it will activate Turn invisible timed
 
@@ -381,9 +384,6 @@ As of now, it starts invisibility. If the light level is greater than 0 it will 
 > **Source image:** image291.png *(media file pending upload: `image291.png`)*
 
 After the delay in TurnInvisibleTimed, it will activate <u>end invisibility</u>, which will turn the texture back to the original texture. <span class="mark">(want to go back and revise, inefficient)</span>
-
-
-
 
 ## **Sprinting:**
 
@@ -411,7 +411,9 @@ After the delay in TurnInvisibleTimed, it will activate <u>end invisibility</u>,
 
 Sprint is activated by the Shift key, and logic is held inside of BP Player.
 
-<u>On Sprint Triggered</u>> **Source image:** image251.png *(media file pending upload: `image251.png`)*
+<u>On Sprint Triggered</u>
+
+> **Source image:** image251.png *(media file pending upload: `image251.png`)*
 
 What on Sprint triggered does, is it first makes sure you're not crouching, or else it will not activate.
 
@@ -497,7 +499,9 @@ We get the closest distance, and detect range. If the closest Distance is not wi
 
 Then it will set the rotation to the default, set the material to green, and turn the invisibility off on the arrow.
 
-> **Source image:** image246.png *(media file pending upload: `image246.png`)*However if the Closest distance IS within the detect range,
+> **Source image:** image246.png *(media file pending upload: `image246.png`)*
+
+However if the Closest distance IS within the detect range,
 
 The set visibility is put on the arrow, which points towards the closest guard. The Set Actor Rotation rotates the soul depending on the look at rotation from the soul to the closest guard.
 
@@ -517,7 +521,9 @@ When death is called, it sets the dead boolean, which breaks the large while loo
 
 **Core of Camager: Camera Orient**
 
-**Camera Orient is a crucial component of the camera, and the first thing I coded to make the camager work. It constantly gets the camera location and rotation. You won’t interact with this function, but this function will show up continually in the code.**> **Source image:** image132.png *(media file pending upload: `image132.png`)*
+**Camera Orient is a crucial component of the camera, and the first thing I coded to make the camager work. It constantly gets the camera location and rotation. You won’t interact with this function, but this function will show up continually in the code.**
+
+> **Source image:** image132.png *(media file pending upload: `image132.png`)*
 
 Basic flow of camera orient is getting the camera location, doing a raytrace to check for collisions, and setting the offset depending on if there’s a collision or not.
 
@@ -581,7 +587,11 @@ The second line trace shoots down from where the camera normally would be withou
 
 **Interactables:** Takes in an arrow within interactables and sets that to the desired camera location and rotation.
 
-> **Source image:** image237.png *(media file pending upload: `image237.png`)*> **Source image:** image255.png *(media file pending upload: `image255.png`)*> **Source image:** image211.png *(media file pending upload: `image211.png`)*
+> **Source image:** image237.png *(media file pending upload: `image237.png`)*
+
+> **Source image:** image255.png *(media file pending upload: `image255.png`)*
+
+> **Source image:** image211.png *(media file pending upload: `image211.png`)*
 
 Within an intractable, the programmer can place the arrow where the camera would be, and you can plug that into the Enter Fixed Camera function. Lerp can be turned on and off depending if you want to interpolate to the arrow location.
 
@@ -629,7 +639,9 @@ Peek left and peek right simply lerp the actual camera offset to a position that
 
 ###  **Design**
 
-> **Source image:** image355.gif *(media file pending upload: `image355.gif`)*> **Source image:** image308.gif *(media file pending upload: `image308.gif`)*
+> **Source image:** image355.gif *(media file pending upload: `image355.gif`)*
+
+> **Source image:** image308.gif *(media file pending upload: `image308.gif`)*
 
 **Design Statement:** Where do I even begin? Crack look started off as a fixed camera that would just switch to peek left and right, which were more fixed cameras. However we wanted the experience in the crack to be more interactive. This is first done by letting the player look around the crack with their mouse. Then with the quick time event, we did something super dynamic, which the camera movements had to match.
 
@@ -639,7 +651,9 @@ Peek left and peek right simply lerp the actual camera offset to a position that
 
 **Code**
 
-This is the flow of logic within blueprint update camera. The structure here is similar to the other walking cameras, however instead of camera orient, we have <span class="mark">Enter Crack Look</span>, which handles the core logic way differently. > **Source image:** image319.png *(media file pending upload: `image319.png`)*
+This is the flow of logic within blueprint update camera. The structure here is similar to the other walking cameras, however instead of camera orient, we have <span class="mark">Enter Crack Look</span>, which handles the core logic way differently. 
+
+> **Source image:** image319.png *(media file pending upload: `image319.png`)*
 
 > **Source image:** image22.png *(media file pending upload: `image22.png`)*
 
@@ -661,7 +675,9 @@ Afterwards, I set the view max and mins for the pitch and yaw. This locks how fa
 
 **When QTE active**
 
-When there's a QTE, there’s one more boolean for QTE dodging, which happens when the player dodges after successfully doing the QT task. > **Source image:** image44.png *(media file pending upload: `image44.png`)*
+When there's a QTE, there’s one more boolean for QTE dodging, which happens when the player dodges after successfully doing the QT task. 
+
+> **Source image:** image44.png *(media file pending upload: `image44.png`)*
 
 When QTE dodging is active, the QTE direction is chosen by random in the GI_latern, which determines what side of the crack the camera will shift to.
 
@@ -685,7 +701,9 @@ To Exit, the exit fixed camera function can be used, again with the lerp on and 
 
 **Set QTE and QTE dodge**
 
-> **Source image:** image185.png *(media file pending upload: `image185.png`)*> **Source image:** image135.png *(media file pending upload: `image135.png`)*
+> **Source image:** image185.png *(media file pending upload: `image185.png`)*
+
+> **Source image:** image135.png *(media file pending upload: `image135.png`)*
 
 Starts the quick time event within the crack, used in GI_lantern.
 
@@ -731,7 +749,9 @@ This function in GI is wired to a function inside of BP_MapDebug. The map being 
 
 BP_MapDebug holds 3 functions.
 
-- AddEvent that is always triggered by GI_Lantern, which records to a file based on the name that is set by CurrentFile. > **Source image:** image125.png *(media file pending upload: `image125.png`)*
+- AddEvent that is always triggered by GI_Lantern, which records to a file based on the name that is set by CurrentFile. 
+
+> **Source image:** image125.png *(media file pending upload: `image125.png`)*
 
 - DrawLocations and ClearDraws draws/clears debug boxes. See usage guide for how to use them in the level editor.
 
@@ -1389,7 +1409,9 @@ fix: declare these two functions in C++ parent (definition can stay in BP if nee
 
 GI_Lantern:
 
-> **Source image:** image270.png *(media file pending upload: `image270.png`)*x3
+> **Source image:** image270.png *(media file pending upload: `image270.png`)*
+
+x3
 
 fix: remove cast; Get Controlled Pawn exists in base Controller class
 
@@ -1399,7 +1421,9 @@ BP_LightProjectile:
 
 BP_WaypointManager:
 
-> **Source image:** image305.png *(media file pending upload: `image305.png`)*x2
+> **Source image:** image305.png *(media file pending upload: `image305.png`)*
+
+x2
 
 fix: declare GoToNewStimulus in C++ parent
 
@@ -1407,7 +1431,11 @@ fix: declare GoToNewStimulus in C++ parent
 
 AIC_GuardController02, BP_GuardController01_AIC:
 
-> **Source image:** image80.png *(media file pending upload: `image80.png`)*> **Source image:** image39.png *(media file pending upload: `image39.png`)*> **Source image:** image76.png *(media file pending upload: `image76.png`)*
+> **Source image:** image80.png *(media file pending upload: `image80.png`)*
+
+> **Source image:** image39.png *(media file pending upload: `image39.png`)*
+
+> **Source image:** image76.png *(media file pending upload: `image76.png`)*
 
 fix: move PointToGoTo and RandomlyCheckingPlayerCrevice to C++
 
@@ -1425,13 +1453,19 @@ fix: move PointToGoTo to C++
 
 STT_ChooseClosestPointsInRange:
 
-> **Source image:** image208.png *(media file pending upload: `image208.png`)*> **Source image:** image65.png *(media file pending upload: `image65.png`)*
+> **Source image:** image208.png *(media file pending upload: `image208.png`)*
+
+> **Source image:** image65.png *(media file pending upload: `image65.png`)*
 
 fix: move PointsToInvestigate and PointOfInterestRange to C++
 
 STT_ChooseClosestPointOfInterest:
 
-> **Source image:** image243.png *(media file pending upload: `image243.png`)*> **Source image:** image62.png *(media file pending upload: `image62.png`)*> **Source image:** image92.png *(media file pending upload: `image92.png`)*
+> **Source image:** image243.png *(media file pending upload: `image243.png`)*
+
+> **Source image:** image62.png *(media file pending upload: `image62.png`)*
+
+> **Source image:** image92.png *(media file pending upload: `image92.png`)*
 
 there are three 3 cast nodes to be replaced, each referencing a combination of these 3 variables
 
@@ -1467,7 +1501,11 @@ fix: move PointToGoTo, covered by several others in this list
 
 BP_WaypointManager:
 
-> **Source image:** image128.png *(media file pending upload: `image128.png`)*> **Source image:** image329.png *(media file pending upload: `image329.png`)*> **Source image:** image346.png *(media file pending upload: `image346.png`)*
+> **Source image:** image128.png *(media file pending upload: `image128.png`)*
+
+> **Source image:** image329.png *(media file pending upload: `image329.png`)*
+
+> **Source image:** image346.png *(media file pending upload: `image346.png`)*
 
 > **Source image:** image290.png *(media file pending upload: `image290.png`)*
 
@@ -1566,7 +1604,11 @@ My next job on this will be to define what exactly the magical algorithm soup do
 
 This is the STE subscribing to all of the perception-related events in GuardControllerBase. When one of those functions is called (which is something you can read about in the GuardControllerBase earlier in this doc), the STE will catch it and call one of its own functions, which I will show here:
 
-> **Source image:** image216.png *(media file pending upload: `image216.png`)*> **Source image:** image118.png *(media file pending upload: `image118.png`)*> **Source image:** image86.png *(media file pending upload: `image86.png`)*
+> **Source image:** image216.png *(media file pending upload: `image216.png`)*
+
+> **Source image:** image118.png *(media file pending upload: `image118.png`)*
+
+> **Source image:** image86.png *(media file pending upload: `image86.png`)*
 
 Right now, it gathers an Object/Vector to give the StateTree an Actor and/or location for the thing it senses. This is temporary code and should be replaced with something better (I propose changing Guard Yellow Info to match what’s needed here).
 
@@ -2372,7 +2414,9 @@ In BP_Watcher:
 
 > **Source image:** image309.png *(media file pending upload: `image309.png`)*
 
-> **Source image:** image201.png *(media file pending upload: `image201.png`)*> **Source image:** image94.png *(media file pending upload: `image94.png`)*
+> **Source image:** image201.png *(media file pending upload: `image201.png`)*
+
+> **Source image:** image94.png *(media file pending upload: `image94.png`)*
 
 > **Source image:** image144.png *(media file pending upload: `image144.png`)*
 
@@ -2560,7 +2604,6 @@ using a Persistent Interactable Component.
 
 > **Source image:** image219.png *(media file pending upload: `image219.png`)*
 
-
 ### **Design**
 
 **Design Statement:** The Brazier is an intractable part of the level that the player must activate to progress toward the final objective. Interaction with it brings the player into a minigame where they must turn the wheel to open the brazier, during which the player cannot move and can see very little. Activating the brazier calls the enemies, and progresses you toward the goal.
@@ -2594,28 +2637,55 @@ With the event OnActivate, it calls AddBrazier, passing in its own ID as an argu
 resets the brazier without pinging the guards.
 
 **OnInteract  
-**<u>if destroyed</u>> **Source image:** image299.png *(media file pending upload: `image299.png`)*restore some light.
+**<u>if destroyed</u>
 
-<u>if completed</u>> **Source image:** image345.png *(media file pending upload: `image345.png`)*restore light. Do this only once.
+> **Source image:** image299.png *(media file pending upload: `image299.png`)*
 
-<u>if not completed, and is active</u> > **Source image:** image109.png *(media file pending upload: `image109.png`)*free the camera and update materials. Set active so this will not happen again.> **Source image:** image371.png *(media file pending upload: `image371.png`)*remove the controls for the brazier opening mini game. Make the player visible again.
+restore some light.
 
-> **Source image:** image106.png *(media file pending upload: `image106.png`)*update the Game Instance so it doesn’t display the minigame UI anymore. Trigger cutscene.
+<u>if completed</u>
+
+> **Source image:** image345.png *(media file pending upload: `image345.png`)*
+
+restore light. Do this only once.
+
+<u>if not completed, and is active</u> 
+
+> **Source image:** image109.png *(media file pending upload: `image109.png`)*
+
+free the camera and update materials. Set active so this will not happen again.
+
+> **Source image:** image371.png *(media file pending upload: `image371.png`)*
+
+remove the controls for the brazier opening mini game. Make the player visible again.
+
+> **Source image:** image106.png *(media file pending upload: `image106.png`)*
+
+update the Game Instance so it doesn’t display the minigame UI anymore. Trigger cutscene.
 
 <u>If not completed or active:</u>
 
-> **Source image:** image91.png *(media file pending upload: `image91.png`)*enter fixed camera. Remove usual player controls and activate minigame controls.> **Source image:** image193.png *(media file pending upload: `image193.png`)*hide the player. Assign new materials and alert the GI to begin displaying the minigame UI.
+> **Source image:** image91.png *(media file pending upload: `image91.png`)*
+
+enter fixed camera. Remove usual player controls and activate minigame controls.
+
+> **Source image:** image193.png *(media file pending upload: `image193.png`)*
+
+hide the player. Assign new materials and alert the GI to begin displaying the minigame UI.
 
 **Event Tick**: Relevant only during the minigame. Updates the position of the top of the brazier and play the sounds of opening the brazier. If the minigame is complete, it tells the GI to lock this brazier.
 
 **RotateWheel:** Performs the math to detect mouse rotations, and update the position of the visible ship’s wheel.
 
-**Activate**> **Source image:** image217.png *(media file pending upload: `image217.png`)*Pings enemies, activates activatables associated with it, tells the GI to update its status.
+**Activate**
+
+> **Source image:** image217.png *(media file pending upload: `image217.png`)*
+
+Pings enemies, activates activatables associated with it, tells the GI to update its status.
 
 ## **BP_Crack_I**
 
 > **Source image:** image87.png *(media file pending upload: `image87.png`)*
-
 
 ### **Design**
 
@@ -2695,7 +2765,6 @@ call save.
 
 **Design Statement:** Activatables are actors within the game which perform a specific action when triggered by their OnActivate event. Activations are typically triggered by player actions, often involving Interactables.
 
-
 ## **BP_Door_Braziers**
 
 **Design Statement:** The final door which is opened when the player has completed all their objectives. When the player goes through this door, they win
@@ -2736,13 +2805,23 @@ Torches: Array\<BP_Indicator_Torches\> -- Array of torches.
 
 **Functions**
 
-OnActivate> **Source image:** image285.png *(media file pending upload: `image285.png`)*activates the torches.
+OnActivate
 
-AddTorch> **Source image:** image11.png *(media file pending upload: `image11.png`)*spawns a new torch and adds it to its array of Torches
+> **Source image:** image285.png *(media file pending upload: `image285.png`)*
+
+activates the torches.
+
+AddTorch
+
+> **Source image:** image11.png *(media file pending upload: `image11.png`)*
+
+spawns a new torch and adds it to its array of Torches
 
 DestroyTorches
 
-> **Source image:** image225.png *(media file pending upload: `image225.png`)*deletes all torches in its array, then itself.
+> **Source image:** image225.png *(media file pending upload: `image225.png`)*
+
+deletes all torches in its array, then itself.
 
 ## **BP_Indicator_Torches**
 
@@ -2764,9 +2843,15 @@ FlameMaterial: a Material instance reference, intended to hold an instance of M_
 
 OnActivate
 
-> **Source image:** image26.png *(media file pending upload: `image26.png`)*sets the color of FlameMaterial to the preset golden light.
+> **Source image:** image26.png *(media file pending upload: `image26.png`)*
 
-BeginPlay> **Source image:** image266.png *(media file pending upload: `image266.png`)*Creates a new material instance and assigns it to FlameMaterial, then assigns it to the sphere at the top.
+sets the color of FlameMaterial to the preset golden light.
+
+BeginPlay
+
+> **Source image:** image266.png *(media file pending upload: `image266.png`)*
+
+Creates a new material instance and assigns it to FlameMaterial, then assigns it to the sphere at the top.
 
 ## **BP_DoorLights**
 
@@ -2780,7 +2865,11 @@ BeginPlay> **Source image:** image266.png *(media file pending upload: `image266
 
 ### **Code Overview**
 
-OnActivate: > **Source image:** image150.png *(media file pending upload: `image150.png`)*sets the color of the spot light to the preset golden light.
+OnActivate: 
+
+> **Source image:** image150.png *(media file pending upload: `image150.png`)*
+
+sets the color of the spot light to the preset golden light.
 
 ## **BP_Trigger**
 
@@ -2806,9 +2895,15 @@ ReactivateOnReset: boolean -- whether the triggered events need to be reactivate
 
 **Functions**
 
-BeginOverlap> **Source image:** image69.png *(media file pending upload: `image69.png`)*when overlapping a player, it checks its own activation status, then if not activated, calls OnActivate on itself. If it is activated and can be deactivated, it deactivates itself.
+BeginOverlap
 
-OnActivate> **Source image:** image83.png *(media file pending upload: `image83.png`)*
+> **Source image:** image69.png *(media file pending upload: `image69.png`)*
+
+when overlapping a player, it checks its own activation status, then if not activated, calls OnActivate on itself. If it is activated and can be deactivated, it deactivates itself.
+
+OnActivate
+
+> **Source image:** image83.png *(media file pending upload: `image83.png`)*
 
 Tell the PersistentInteractable component to inform GI of activation, then for every item in TriggeredItems either activate or Interact with it.
 
@@ -2836,7 +2931,9 @@ BoxTriggered: -- sets to whichever of the three possible doors is the closed one
 
 **Functions**
 
-OnComponentBeginOverlap> **Source image:** image226.png *(media file pending upload: `image226.png`)*
+OnComponentBeginOverlap
+
+> **Source image:** image226.png *(media file pending upload: `image226.png`)*
 
 There are three versions of this which all do the same thing, targeting different boxes and triggering a different door.
 
@@ -2899,7 +2996,9 @@ Please see Brazier Door Cutscene
 
 ### **Code Overview**
 
-**BP_Watcher_Trigger (OnActivate):**> **Source image:** image40.png *(media file pending upload: `image40.png`)*
+**BP_Watcher_Trigger (OnActivate):**
+
+> **Source image:** image40.png *(media file pending upload: `image40.png`)*
 
 1.  Call the parent OnActivate (BP_Trigger, which calls it when a player overlaps with the Box Collision).
 
@@ -3003,7 +3102,6 @@ The cutscenes are meant to help introduce the player to important components and
 
 > **Source image:** image136.gif *(media file pending upload: `image136.gif`)*
 
-
 ### **Design**
 
 **Design Statement:**
@@ -3040,7 +3138,6 @@ When the timeline finishes, we delay for half a second, open the first lock, and
 
 > **Source image:** image273.gif *(media file pending upload: `image273.gif`)*
 
-
 ### **Design**
 
 **Design Statement:**
@@ -3064,7 +3161,6 @@ For Code Overviews Look at BP_Trigger_Watcher and Watcher Documentation
 ## **Distraction Tutorial**
 
 > **Source image:** image289.gif *(media file pending upload: `image289.gif`)*
-
 
 ### **Design**
 
@@ -3111,7 +3207,6 @@ When SpawnPing is called within the BP_LightProjectile, it sets the visibility o
 If activated is True, in event tic, it will continuously decrease the Aurora opacity for the material. It will also continuously increase the world scale of the object.
 
 It will stop activated once the actor is destroyed in spawn ping after the 10 second delay.
-
 
 ## **<u>Elements</u>**
 
@@ -3211,7 +3306,9 @@ EnterBrazier(): Called when the player interacts with an unopened brazier. Displ
 
 > **Source image:** image360.png *(media file pending upload: `image360.png`)*
 
-LockBrazier(): Called when the player finishes opening a brazier. Hides the rotate mouse prompt and displays the “Exit” prompt.> **Source image:** image101.png *(media file pending upload: `image101.png`)*
+LockBrazier(): Called when the player finishes opening a brazier. Hides the rotate mouse prompt and displays the “Exit” prompt.
+
+> **Source image:** image101.png *(media file pending upload: `image101.png`)*
 
 BrokenBrazierInteract(): Not currently in use but does get called when the player interacts with a broken brazier.
 
@@ -3231,7 +3328,9 @@ BeginInteractOverlap(): Called when the player enters the range of an interactab
 
 > **Source image:** image245.png *(media file pending upload: `image245.png`)*
 
-EndInteractOverlap(): Called when a player exits the range of an interactable. Hides the action prompt.> **Source image:** image17.png *(media file pending upload: `image17.png`)*
+EndInteractOverlap(): Called when a player exits the range of an interactable. Hides the action prompt.
+
+> **Source image:** image17.png *(media file pending upload: `image17.png`)*
 
 **Game Events**
 
@@ -3247,17 +3346,29 @@ TogglePause(): Pauses game if unpaused. Unpauses game if paused.
 
 > **Source image:** image29.png *(media file pending upload: `image29.png`)*
 
-ReturnToMainMenu(): Opens the main menu level and resets the game.> **Source image:** image30.png *(media file pending upload: `image30.png`)*
+ReturnToMainMenu(): Opens the main menu level and resets the game.
 
-BeginPlay(): Called from the built-in BeginPlay function in GM_Lantern since a game instance doesn’t have its own. Sets up the level.> **Source image:** image5.png *(media file pending upload: `image5.png`)*
+> **Source image:** image30.png *(media file pending upload: `image30.png`)*
 
-ResetGame(): Called each time the player dies. Sets their spawn location/rotation and handles the braziers according to the last save point.> **Source image:** image45.png *(media file pending upload: `image45.png`)*
+BeginPlay(): Called from the built-in BeginPlay function in GM_Lantern since a game instance doesn’t have its own. Sets up the level.
 
-InitializePlayerStart(): Moves the player start actor according to SpawnPointLocation and SpawnPointRotation.> **Source image:** image108.png *(media file pending upload: `image108.png`)*
+> **Source image:** image5.png *(media file pending upload: `image5.png`)*
 
-SetBrazierUI(): Sets the Braziers Lit Widget based on TotalBraziers and the length of BraziersLit.> **Source image:** image354.png *(media file pending upload: `image354.png`)*
+ResetGame(): Called each time the player dies. Sets their spawn location/rotation and handles the braziers according to the last save point.
 
-SetGuards(): Finds all guards in the level and adds them to the Guards set.> **Source image:** image142.png *(media file pending upload: `image142.png`)*
+> **Source image:** image45.png *(media file pending upload: `image45.png`)*
+
+InitializePlayerStart(): Moves the player start actor according to SpawnPointLocation and SpawnPointRotation.
+
+> **Source image:** image108.png *(media file pending upload: `image108.png`)*
+
+SetBrazierUI(): Sets the Braziers Lit Widget based on TotalBraziers and the length of BraziersLit.
+
+> **Source image:** image354.png *(media file pending upload: `image354.png`)*
+
+SetGuards(): Finds all guards in the level and adds them to the Guards set.
+
+> **Source image:** image142.png *(media file pending upload: `image142.png`)*
 
 AddTestEvent(E_TestType newEventTestType): HELP
 
@@ -3287,15 +3398,25 @@ Spawn(): Called when the player first spawns.
 
 > **Source image:** image250.png *(media file pending upload: `image250.png`)*
 
-FirstBrazierLit(): Called after the player lights a brazier for the first time.> **Source image:** image241.png *(media file pending upload: `image241.png`)*
+FirstBrazierLit(): Called after the player lights a brazier for the first time.
 
-FirstCrackUsed(): Called the first time a player enters a crack.> **Source image:** image191.png *(media file pending upload: `image191.png`)*
+> **Source image:** image241.png *(media file pending upload: `image241.png`)*
 
-FirstCrackSuccessful(): Called after a guard investigates a crevice containing the player for the first time.> **Source image:** image95.png *(media file pending upload: `image95.png`)*
+FirstCrackUsed(): Called the first time a player enters a crack.
 
-SeeWatcher(): Called the first time the player sees the Watcher.> **Source image:** image311.png *(media file pending upload: `image311.png`)*
+> **Source image:** image191.png *(media file pending upload: `image191.png`)*
 
-FirstCrackSuccessful(): Called after a guard investigates a crevice containing the player for the first time.> **Source image:** image95.png *(media file pending upload: `image95.png`)*
+FirstCrackSuccessful(): Called after a guard investigates a crevice containing the player for the first time.
+
+> **Source image:** image95.png *(media file pending upload: `image95.png`)*
+
+SeeWatcher(): Called the first time the player sees the Watcher.
+
+> **Source image:** image311.png *(media file pending upload: `image311.png`)*
+
+FirstCrackSuccessful(): Called after a guard investigates a crevice containing the player for the first time.
+
+> **Source image:** image95.png *(media file pending upload: `image95.png`)*
 
 SuggestInvisibility(): Called the first time a guard tries to aggro on the player. Triggers the invisibility tutorial.
 
@@ -3331,9 +3452,13 @@ ReceiveQTEInput(): Called when the player passes an input during the second part
 
 > **Source image:** image264.png *(media file pending upload: `image264.png`)*
 
-RequestQTEInput(): Called from the HUD when the first part of the QTE is completed. Passes the input based on QTEDodge2.> **Source image:** image323.png *(media file pending upload: `image323.png`)*
+RequestQTEInput(): Called from the HUD when the first part of the QTE is completed. Passes the input based on QTEDodge2.
 
-SendQTEResult(): Called from the HUD when the second part of the QTE is completed. If the player fails, the level is reloaded. Otherwise, the cutscene plays and the widget is hidden.> **Source image:** image253.png *(media file pending upload: `image253.png`)*
+> **Source image:** image323.png *(media file pending upload: `image323.png`)*
+
+SendQTEResult(): Called from the HUD when the second part of the QTE is completed. If the player fails, the level is reloaded. Otherwise, the cutscene plays and the widget is hidden.
+
+> **Source image:** image253.png *(media file pending upload: `image253.png`)*
 
 **GI_Lantern Functions**
 
@@ -3349,9 +3474,13 @@ CheckShouldTeachInvisibility(): Returns true if the invisibility tutorial should
 
 > **Source image:** image82.png *(media file pending upload: `image82.png`)*
 
-CheckShouldTeachDistraction(): Returns true if the distraction tutorial should trigger. The player must have more than 0 light and the tutorial must have not yet been triggered.> **Source image:** image157.png *(media file pending upload: `image157.png`)*
+CheckShouldTeachDistraction(): Returns true if the distraction tutorial should trigger. The player must have more than 0 light and the tutorial must have not yet been triggered.
 
-Save(): Saves the game. Moves all contents of ActivatedInteractables to SavedInteractables. Clears ActivatedInteractables. Called when the player interacts with a Soul Statue.> **Source image:** image343.png *(media file pending upload: `image343.png`)*
+> **Source image:** image157.png *(media file pending upload: `image157.png`)*
+
+Save(): Saves the game. Moves all contents of ActivatedInteractables to SavedInteractables. Clears ActivatedInteractables. Called when the player interacts with a Soul Statue.
+
+> **Source image:** image343.png *(media file pending upload: `image343.png`)*
 
 ## **Game Mode (GM_Lantern)**
 
@@ -3509,7 +3638,9 @@ SetLightAmount(float remainingCharge): Ensures that the widget exists, then call
 
 **HUD_Main Functions**
 
-SetAmmoVisibility(bool visible): If visible is true, the widget is created and/or added to the viewport. If not, it is removed.> **Source image:** image186.png *(media file pending upload: `image186.png`)*
+SetAmmoVisibility(bool visible): If visible is true, the widget is created and/or added to the viewport. If not, it is removed.
+
+> **Source image:** image186.png *(media file pending upload: `image186.png`)*
 
 ## **Pause Menu ([<u>WBP_PauseMenu</u>](#pause-menu-wbp_pausemenu-1))**
 
@@ -3523,7 +3654,9 @@ SetPauseMenuVisibility(bool visible): Passes the visible parameter to SetPauseVi
 
 **HUD_Main Functions**
 
-SetPauseVisibility(bool visible): If visible is true, the widget is created and/or added to the viewport. If not, it is removed.> **Source image:** image300.png *(media file pending upload: `image300.png`)*
+SetPauseVisibility(bool visible): If visible is true, the widget is created and/or added to the viewport. If not, it is removed.
+
+> **Source image:** image300.png *(media file pending upload: `image300.png`)*
 
 **HUD_Main Events**
 
@@ -3551,7 +3684,9 @@ SetLightAmount(float remainingCharge): Ensures that the widget exists, then call
 
 **HUD_Main Functions**
 
-SetDialogue(String text, E_Characters speaker): Creates the widget if necessary, then displays it with the corresponding text and speaker.> **Source image:** image326.png *(media file pending upload: `image326.png`)*
+SetDialogue(String text, E_Characters speaker): Creates the widget if necessary, then displays it with the corresponding text and speaker.
+
+> **Source image:** image326.png *(media file pending upload: `image326.png`)*
 
 **HUD_Main Events**
 
@@ -3571,7 +3706,9 @@ SetNumBraziersLit(int numLit, int numTotal, float displayTime): Calls SetBrazier
 
 **HUD_Main Functions**
 
-SetBraziersLit(bool visible, int numLit, int numTotal, float displayTime): If visible is true, the widget is created and/or added to the viewport and the Display() function in WBP_BraziersLit is called. If not, it is removed.> **Source image:** image202.png *(media file pending upload: `image202.png`)*
+SetBraziersLit(bool visible, int numLit, int numTotal, float displayTime): If visible is true, the widget is created and/or added to the viewport and the Display() function in WBP_BraziersLit is called. If not, it is removed.
+
+> **Source image:** image202.png *(media file pending upload: `image202.png`)*
 
 ## **QTE Widget ([<u>WBP_QTE</u>](#quick-time-event-wbp_qte))**
 
@@ -3597,7 +3734,9 @@ SendQTEInput(Vector2D input): Tells the HUD which input key the player has press
 
 **HUD_Main Functions**
 
-SetQTEVisible(bool visible): If visible is true, the widget is created and/or added to the viewport. If not, it is removed.> **Source image:** image52.png *(media file pending upload: `image52.png`)*
+SetQTEVisible(bool visible): If visible is true, the widget is created and/or added to the viewport. If not, it is removed.
+
+> **Source image:** image52.png *(media file pending upload: `image52.png`)*
 
 ## **Objective Widget ([<u>WBP_Objective</u>](#objective-wbp_objective))**
 
@@ -3611,7 +3750,9 @@ FadeObjective(float playRate, float visibleTime, float delayTime, Text objective
 
 **HUD_Main Functions**
 
-SetObjectiveVisibility(bool visible, float opacity): If visible is true, the widget is created and/or added to the viewport with the input opacity. If not, it is removed.> **Source image:** image347.png *(media file pending upload: `image347.png`)*
+SetObjectiveVisibility(bool visible, float opacity): If visible is true, the widget is created and/or added to the viewport with the input opacity. If not, it is removed.
+
+> **Source image:** image347.png *(media file pending upload: `image347.png`)*
 
 ## **Tooltip Widget ([<u>WBP_ToolTip</u>](#tooltip-wbp_tooltip))**
 
@@ -3625,7 +3766,9 @@ DisplayToolTip(String tipText, float displayTime, String alignment): If another 
 
 **HUD_Main Functions**
 
-SetToolTipVisibility(bool visible): If visible is true, the widget is created and/or added to the viewport. If not, it is removed.> **Source image:** image373.png *(media file pending upload: `image373.png`)*
+SetToolTipVisibility(bool visible): If visible is true, the widget is created and/or added to the viewport. If not, it is removed.
+
+> **Source image:** image373.png *(media file pending upload: `image373.png`)*
 
 **HUD_Main Events**
 
@@ -3657,7 +3800,9 @@ SetAbilityPrompt(String ability): Swaps the visible panel according to the input
 
 **HUD_Main Functions**
 
-SetInvisibilityVisibility(bool visible): If visible is true, the widget is created and/or added to the viewport. If not, it is removed.> **Source image:** image218.png *(media file pending upload: `image218.png`)*
+SetInvisibilityVisibility(bool visible): If visible is true, the widget is created and/or added to the viewport. If not, it is removed.
+
+> **Source image:** image218.png *(media file pending upload: `image218.png`)*
 
 **Widget Blueprints**
 
@@ -3782,9 +3927,15 @@ SetAlignment(String alignment): Sets the alignment to the input string (“Right
 
 StartTipLerp(String tipText): Starts displaying input tooltip at current alignment
 
-StartBarLerp(): Starts displaying bar (called slightly before StartTipLerp)> **Source image:** image223.png *(media file pending upload: `image223.png`)*
+StartBarLerp(): Starts displaying bar (called slightly before StartTipLerp)
 
-ReverseTipLerp() and ReverseBarLerp(): Start collapsing tip and bar, respectively> **Source image:** image336.png *(media file pending upload: `image336.png`)*> **Source image:** image68.png *(media file pending upload: `image68.png`)*
+> **Source image:** image223.png *(media file pending upload: `image223.png`)*
+
+ReverseTipLerp() and ReverseBarLerp(): Start collapsing tip and bar, respectively
+
+> **Source image:** image336.png *(media file pending upload: `image336.png`)*
+
+> **Source image:** image68.png *(media file pending upload: `image68.png`)*
 
 ## **Objective (WBP_Objective)**
 
@@ -3855,7 +4006,6 @@ SetNumLit(int numLit, int numTotal): Builds the textbox string based on the inpu
 ## **Ability Widget (WBP_DistractionActions)**
 
 > **Source image:** image257.png *(media file pending upload: `image257.png`)*
-
 
 **Last Updated:** 10/16/26
 
