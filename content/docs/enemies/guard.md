@@ -1,5 +1,5 @@
 ---
-title: "Guards"
+title: "Guard"
 type: docs
 weight: 1
 ---

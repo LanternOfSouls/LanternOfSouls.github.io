@@ -1,7 +1,7 @@
 ---
 title: "Interactables"
 type: docs
-weight: 4
+weight: 3
 ---
 
 ## **<u>Interactables</u>**

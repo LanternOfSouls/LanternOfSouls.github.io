@@ -8,4 +8,4 @@ weight: 1
 
 This documentation site contains the design and implementation reference for the Lantern of Souls capstone game.
 
-[Read the Game Design Document](game-design/)
+[Read the Game Design Overview](overview/core-design/)

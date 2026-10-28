@@ -1,7 +1,7 @@
 ---
-title: "UI & HUD"
+title: "UI & HUD Reference"
 type: docs
-weight: 8
+weight: 1
 ---
 
 ## Design Statement

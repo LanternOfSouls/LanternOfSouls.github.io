@@ -1,0 +1,20 @@
+---
+title: "Switch"
+type: docs
+weight: 4
+---
+
+## **Switch Sub-level**
+
+**Last Updated:** 10/27/2026
+
+**Design Philosophy:** The switch sub-level is located on the upper level, meaning it should be more difficult to complete than the bottom floor sub-levels. The player should have to spend some time in this sub-level looking around for the brazier, giving them more opportunities to have tense interactions with the guards.
+
+| **Switch Sub-level Breakdown**      |                       |                                                                                                                                                      |                                                                                                                                                                                                                                                      |
+|-------------------------------------|-----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Level Element**                   | **Help or Challenge** | **Explanation**                                                                                                                                      | **How it Supports the Philosophy**                                                                                                                                                                                                                   |
+| Brazier Hidden in the Top-left Room | Challenge             | It’s hard to find and requires the player to explore the space.                                                                                      | The player has to look around the space to find the brazier, requiring them to explore and rewarding them when they do find it.                                                                                                                      |
+| Four Separate Rooms                 | Challenge             | Nothing is                                                                                                                                           |                                                                                                                                                                                                                                                      |
+| Top-right and Top-left Cracks       | Help                  | It’s a place to hide from the guards near the brazier.                                                                                               | By placing these cracks really close to the brazier, we’re able to teach and encourage the player to hide once they light the brazier and alert a guard.                                                                                             |
+| Bottom-left Crack                   | Help                  | It’s a place to hide from the guards further into the room.                                                                                          | This supports the overall design philosophy of avoiding the player feeling trapped. This is another place the player can choose to hide if they try to walk back into the room to get away from the incoming guard summoned by lighting the brazier. |
+| Two Exits                           | Help                  | If the enemy is approaching one exit, the player can use the other exit to escape. It also prevents the watcher from looking straight into the room. | Supports the overall design philosophy of avoiding the player feeling trapped. They always have another option they can use to get where they want to go.                                                                                            |

@@ -1,7 +1,7 @@
 ---
 title: "Activatables"
 type: docs
-weight: 5
+weight: 4
 ---
 
 ## **<u>Activatables</u>**
@@ -334,5 +334,3 @@ Please see Brazier Door Cutscene
 **Arm Lerp Timelines/Events:** A bunch of nonsense that simulates an animation using the guardarm component, used for the QTE. Do not touch this unless you are replacing it with an actual animation in which case please touch this.
 
 > **Source image:** image13.png *(media file pending upload: `image13.png`)*
-
-## **<u>Waypoints</u>**
