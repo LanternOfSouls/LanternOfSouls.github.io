@@ -8,55 +8,58 @@ weight: 2
 
 ### WatcherBase.h
 
-*// Defines Watcher behavior. Unused*
+```cpp
+// Defines Watcher behavior. Unused
 
 bool SpinPatrol = false;
 
-*// Time it takes in seconds to look at the next waypoint. Unused*
+// Time it takes in seconds to look at the next waypoint. Unused
 
 float DefaultInterpolationTime = 2.0f;
 
-*// hidden variable set based on the waypoint multiplier and default interpolation time. Used in Animation Blueprint when turning to face something*
+// hidden variable set based on the waypoint multiplier and default interpolation time. Used in Animation Blueprint when turning to face something
 
 float InterpolationTime = 2.0f;
 
-*//Used by State Tree to tell Animation blueprint when to turn the eye (True) and when it pauses (False). This has been commented out and can be removed*
+//Used by State Tree to tell Animation blueprint when to turn the eye (True) and when it pauses (False). This has been commented out and can be removed
 
-*//UPROPERTY(BlueprintReadWrite, Category = "Patrol")*
+//UPROPERTY(BlueprintReadWrite, Category = "Patrol")
 
-*//bool TurningTowardsWaypoint = true;*
+//bool TurningTowardsWaypoint = true;
 
-*// Sets Patrol Path through Waypoint actors with additional information*
+// Sets Patrol Path through Waypoint actors with additional information
 
-TArray\<FWatcherWaypoint\> PatrolWaypoints;
+TArray<FWatcherWaypoint> PatrolWaypoints;
 
-*// I believe this is used to put a Waypoint at the player’s last known location. It starts at the Watcher’s own location.*
+// I believe this is used to put a Waypoint at the player’s last known location. It starts at the Watcher’s own location.
 
-TSubclassOf\<AWaypointBase\> WaypointClassToSpawn;
+TSubclassOf<AWaypointBase> WaypointClassToSpawn;
 
-*// Player’s last known location struct*
+// Player’s last known location struct
 
 FWatcherWaypoint LastKnownLocationWaypointData;
 
-*// Player’s last known location actor*
+// Player’s last known location actor
 
-TObjectPtr\<AWaypointBase\> LastKnownLocationWaypoint;
+TObjectPtr<AWaypointBase> LastKnownLocationWaypoint;
 
 protected:
 
-*// Called when the game starts or when spawned*
+// Called when the game starts or when spawned
 
 virtual void BeginPlay() override;
 
-*// Used by Animation Blueprint to determine animation state*
+// Used by Animation Blueprint to determine animation state
 
-UWatcherStateComponent\* StateComponent;
+UWatcherStateComponent* StateComponent;
+```
 
 ### WatcherBase.cpp
 
 Only thing it does is spawn the LastKnownLocationWaypoint at its own location at BeginPlay. This will be used later to mark the player’s location when they’re spotted.
 
-*// Ensure the user assigned the Blueprint class in the Editor*
+```cpp
+// Ensure the user assigned the Blueprint class in the Editor
 
 if (WaypointClassToSpawn)
 
@@ -68,9 +71,9 @@ SpawnParams.Owner = this;
 
 SpawnParams.Instigator = GetInstigator();
 
-*// Spawn the Blueprint instance, but store it as the C++ base type*
+// Spawn the Blueprint instance, but store it as the C++ base type
 
-LastKnownLocationWaypoint = World-\>SpawnActor\<AWaypointBase\>(
+LastKnownLocationWaypoint = World->SpawnActor<AWaypointBase>(
 
 WaypointClassToSpawn,
 
@@ -83,6 +86,7 @@ SpawnParams
 );
 
 }
+```
 
 ### WatcherControllerBase.h 
 
@@ -92,9 +96,11 @@ SpawnParams
 
 has only one thing besides defaults, it configures the perception component to be a Watcher perception component:
 
-Perception = CreateDefaultSubobject\<UWatcherPerceptionComponent\>(
+```cpp
+Perception = CreateDefaultSubobject<UWatcherPerceptionComponent>(
 
 TEXT("EnemyPerception"));
+```
 
 ### WatcherPerceptionComponent.h/.cpp: 
 
