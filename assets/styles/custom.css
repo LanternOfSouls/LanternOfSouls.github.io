@@ -1,4 +1,0 @@
-/* Keep section names as bold, non-link labels while their child pages stay visible. */
-.book-menu .book-menu-content li:has(> ul) > a:not([href]) {
-  font-weight: bolder;
-}
